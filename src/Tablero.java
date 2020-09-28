@@ -1,90 +1,175 @@
 public class Tablero {
 
+  //pabloazero.a@fcyt.umss.edu.bo
+
   private int[][] Board;
+  private final int SIZE = 4, FRIST_NUMBER = 2;
+  private final String  RIGHT = "RIGHT",
+                        LEFT = "LEFT";
 
   public Tablero ( int[][] tablero ){
     this.Board = tablero;
   }
+
   public Tablero () {
-    this.Board= new int[4][4];/*[]{
-        {0, 1, 2, 3},
-        {0, 1, 2, 3},
-        {0, 1, 2, 3},
-        {0, 1, 2, 3}
-    };*/
+    this.Board= new int[SIZE][SIZE];
+    setInitialState();
+  }
+
+  private void setInitialState(){
+    int[] position = getRandomPosition();
+    this.Board[position[0]][position[1]] = FRIST_NUMBER;
   }
 
   public boolean move(char key){
     boolean resp = true;
+    key = Character.toUpperCase(key);
     switch (key){
-      case 'w' :
-        scrollUp();
-        break;
+      case 'W' : playUp();   break;
+      case 'S' : playDown(); break;
+      case 'A' : playLeft(); break;
+      case 'D' : playRight();break;
       default : resp = false;
     }
     return resp;
   }
-
-  public void scrollUp (){
-
+  private void playUp(){
+    turnMatrixControl(LEFT,1);
+    solve();
+    displace();
+    turnMatrixControl(RIGHT,1);
   }
-  public void solve(){
-    for (int i = 0; i < 4; i++) {
-      for (int j = 0; j < 3; j++) {
-        if(this.Board[j][i]==this.Board[j+1][i] && this.Board[j][i] != 0){
-          this.Board[j][i]=this.Board[j][i]+this.Board[j+1][i];
-          this.Board[j+1][i]=0;
-        }
-      }
-    }
+  private void playDown(){
+    turnMatrixControl(RIGHT,1);
+    solve();
+    displace();
+    turnMatrixControl(LEFT,1);
   }
+  private void playLeft(){
+    solve();
+    displace();
+  }
+  private void playRight(){
+    turnMatrixControl(RIGHT,2);
+    solve();
+    displace();
+    turnMatrixControl(LEFT,2);
+  }
+
   public void displace(){
     int a, flag;
-    for (int i = 0; i < this.Board.length; i++) {
-      for (int j = 0; j < this.Board.length; j++) {
-        a = this.Board[j][i];
+    for (int i = 0; i < SIZE; i++) {
+      for (int j = 0; j < SIZE; j++) {
+        a = this.Board[i][j];
         flag = j;// = this.Board[j][i];
         if(a==0){
-          flag = search(flag, i);
-          if(flag < 4){   // SWAP
-            Board[j][i] = Board[flag][i];
-            Board[flag][i] = a;
+          flag = search(i, flag);
+          if(flag < SIZE){   // SWAP
+            Board[i][j] = Board[i][flag];
+            Board[i][flag] = a;
           }
+          //j = flag;
         }
       }
     }
   }
-  private int search(int flag, int colum){
-    int resp=4;
-    for (int i = flag; i < Board.length; i++) {
-      if(Board[i][colum] != 0){
-        resp = i;
-        break;
+
+  public void solve(){
+    for (int i = 0; i < SIZE; i++) {
+      for (int j = 0; j < SIZE-1; j++) {
+        int a = this.Board[i][j];
+        int index = search( i, j+1 );
+        int b = this.Board[i][index];
+        if( a == b ){
+          this.Board[i][j] = a * 2;
+          this.Board[i][index] = 0;
+        }
+        //j = index;
       }
+    }
+  }
+
+  private int search( int array, int flag ){
+    for (int i = flag; i < SIZE; i++) {
+      if(Board[ array ][ i ] != 0)
+        return i;
+    }
+    return 3; // return 4 ??
+  }
+
+  public int[][] turnMatrixControl(String dir, int val){
+    int resp[][] = new int [SIZE][SIZE];
+    while(val-- > 0){
+      resp= turnMatrix(dir);
+
+      this.Board = resp;
     }
     return resp;
   }
-
-  public boolean equals ( Tablero t){
-    //int [][] board = t.getBoard();
+  private int[][] turnMatrix( String direction){
+    int[][] newMatrix = new int [SIZE][SIZE];
     for (int i = 0; i < 4; i++) {
       for (int j = 0; j < 4; j++) {
-        if(this.Board[i][j] != t.Board[i][j])
-          return false;
+        int[] newLocation = getNewLocation(direction, i, j);
+        int a = newLocation[0];
+        int b = newLocation[1];
+        newMatrix[a][b] = this.Board[i][j];
+      }
+    }
+    return newMatrix;
+  }
+
+  private int[] getNewLocation( String direction, int i, int j ){
+    int [] a = new int [2];
+    if(direction.equals("RIGHT")){
+      a[0] = j;
+      a[1] = SIZE-1-i;
+    }else{
+      a[0] = SIZE-1-j;
+      a[1] = i;
+    }
+    return a;
+  }
+
+  private int[] getRandomPosition(){
+    int a = (int) Math.random()*SIZE;
+    int b = (int) Math.random()*SIZE;
+    return new int[]{a,b};
+  }
+
+  @Override
+  public boolean equals ( Object o ){
+    if(o == this)
+        return true;
+    if(o instanceof Tablero){
+      Tablero anotherBoard = (Tablero) o;
+      for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+          if(this.Board[i][j] != anotherBoard.Board[i][j])
+            return false;
+        }
       }
     }
     return true;
   }
 
-  /*
-  public void printBoard(){
-    for (int i = 0; i < 4; i++) {
-      for (int j = 0; j < 4; j++) {
-        System.out.print(this.Board[i][j]+"\t");
+  public String printBoard(String title) {
+    String toString = "{ ";
+    System.out.println("\t***\t"+title+"\t***\t");
+    for (int i = 0; i < SIZE; i++) {
+      toString += "[ ";
+      for (int j = 0; j < SIZE; j++) {
+        int val = this.Board[i][j];
+        toString += val+", ";
+        System.out.print(val+"\t");
       }
+      toString += "],\n";
       System.out.println();
     }
-  }
-
-   */
+    toString += "}";
+    return toString;
+  }/*
+  public String toString(){
+    return printBoard("");
+  }*/
 }
