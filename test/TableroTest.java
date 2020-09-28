@@ -243,9 +243,19 @@ public class TableroTest {
     };
     Tablero expected = new Tablero(topRight);
     Tablero board = new Tablero();
+
     board.move('w');
     board.move('d');
 
+    assertEquals(board, expected);
+
+    expected = new Tablero(topLeft);
+    board.move('a');
+    assertEquals(board, expected);
+
+    expected = new Tablero(downLeft);
+    board.move('s');
+    board.move('d');
     assertEquals(board, expected);
   }
 
