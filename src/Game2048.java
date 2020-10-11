@@ -1,4 +1,4 @@
-public class Tablero {
+public class Game2048 implements G2048 {
 
   //pabloazero.a@fcyt.umss.edu.bo
 
@@ -7,56 +7,75 @@ public class Tablero {
   private final String  RIGHT = "RIGHT",
                         LEFT = "LEFT";
 
-  public Tablero ( int[][] tablero ){
+  public Game2048(int[][] tablero ){
     this.Board = tablero;
   }
 
-  public Tablero () {
+  public Game2048() {
     this.Board= new int[SIZE][SIZE];
-    setInitialState();
+    setNumberTwoInBoard();
   }
 
-  private void setInitialState(){
-    int[] position = getRandomPosition();
-    this.Board[position[0]][position[1]] = FRIST_NUMBER;
+  public static G2048 create() {
+    return new Game2048();
   }
 
-  public boolean move(char key){
+  public boolean winGame(){
+    return false;
+  }
+  public boolean lostGame() {
+    return false;
+  }
+  private boolean setNumberTwoInBoard(){
+    boolean hit = false;
+    while ( !hit ){
+      int[] position = getRandomPosition();
+      if( this.Board[position[0]][position[1]] == 0 ){
+        this.Board[position[0]][position[1]] = FRIST_NUMBER;
+        hit = true;
+      }
+    }
+    return hit;
+  }
+
+  public boolean move(String key){
     boolean resp = true;
-    key = Character.toUpperCase(key);
+    key = key.toUpperCase();
     switch (key){
-      case 'W' : playUp();   break;
-      case 'S' : playDown(); break;
-      case 'A' : playLeft(); break;
-      case 'D' : playRight();break;
+      case "W" : moveUp();   break;
+      case "S" : moveDown(); break;
+      case "A" : moveLeft(); break;
+      case "D" : moveRight();break;
       default : resp = false;
     }
+    setNumberTwoInBoard();
     return resp;
   }
-  private void playUp(){
+  public void moveUp(){
     turnMatrixControl(LEFT,1);
     solve();
     displace();
     turnMatrixControl(RIGHT,1);
   }
-  private void playDown(){
+  public void moveDown(){
     turnMatrixControl(RIGHT,1);
     solve();
     displace();
     turnMatrixControl(LEFT,1);
   }
-  private void playLeft(){
+  public void moveLeft(){
     solve();
     displace();
   }
-  private void playRight(){
+  public void moveRight(){
     turnMatrixControl(RIGHT,2);
     solve();
     displace();
     turnMatrixControl(LEFT,2);
   }
 
-  public void displace(){
+
+  private void displace(){
     int a, flag;
     for (int i = 0; i < SIZE; i++) {
       for (int j = 0; j < SIZE; j++) {
@@ -74,7 +93,7 @@ public class Tablero {
     }
   }
 
-  public void solve(){
+  private void solve(){
     for (int i = 0; i < SIZE; i++) {
       for (int j = 0; j < SIZE-1; j++) {
         int a = this.Board[i][j];
@@ -97,7 +116,7 @@ public class Tablero {
     return 3; // return 4 ??
   }
 
-  public int[][] turnMatrixControl(String dir, int val){
+  private int[][] turnMatrixControl(String dir, int val){
     int resp[][] = new int [SIZE][SIZE];
     while(val-- > 0){
       resp= turnMatrix(dir);
@@ -118,7 +137,7 @@ public class Tablero {
     }
     return newMatrix;
   }
-
+// pull out
   private int[] getNewLocation( String direction, int i, int j ){
     int [] a = new int [2];
     if(direction.equals("RIGHT")){
@@ -130,19 +149,20 @@ public class Tablero {
     }
     return a;
   }
-
+  // pull out
   private int[] getRandomPosition(){
-    int a = (int) Math.random()*SIZE;
-    int b = (int) Math.random()*SIZE;
+    int a = (int) (Math.random()*SIZE);
+    int b = (int) (Math.random()*SIZE);
     return new int[]{a,b};
   }
 
   @Override
   public boolean equals ( Object o ){
+    boolean resp = true;
     if(o == this)
-        return true;
-    if(o instanceof Tablero){
-      Tablero anotherBoard = (Tablero) o;
+        resp = true;
+    if(o instanceof Game2048){
+      Game2048 anotherBoard = (Game2048) o;
       for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
           if(this.Board[i][j] != anotherBoard.Board[i][j])
@@ -150,26 +170,22 @@ public class Tablero {
         }
       }
     }
-    return true;
+    return resp;
   }
 
-  public String printBoard(String title) {
-    String toString = "{ ";
-    System.out.println("\t***\t"+title+"\t***\t");
+
+  public String toString() {
+    String toString = "{\n";
     for (int i = 0; i < SIZE; i++) {
       toString += "[ ";
       for (int j = 0; j < SIZE; j++) {
         int val = this.Board[i][j];
-        toString += val+", ";
-        System.out.print(val+"\t");
+        toString += val+",\t";
       }
       toString += "],\n";
-      System.out.println();
     }
-    toString += "}";
+    toString += "}\n";
     return toString;
-  }/*
-  public String toString(){
-    return printBoard("");
-  }*/
+  }
+
 }

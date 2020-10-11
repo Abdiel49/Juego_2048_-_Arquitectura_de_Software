@@ -5,28 +5,28 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 
-public class TableroTest {
+public class Game2048Test {
 
   @Test
   public void actionKey() {
-    Tablero t = new Tablero();
+    Game2048 t = new Game2048();
 
-    boolean keyPressed = t.move('w');
+    boolean keyPressed = t.move("w");
     assertTrue(keyPressed);
 
-    keyPressed = t.move('a');
+    keyPressed = t.move("a");
     assertTrue(keyPressed);
 
-    keyPressed = t.move('S');
+    keyPressed = t.move("S");
     assertTrue(keyPressed);
 
-    keyPressed = t.move('d');
+    keyPressed = t.move("d");
     assertTrue(keyPressed);
 
-    keyPressed = t.move('H');
+    keyPressed = t.move("H");
     assertFalse(keyPressed);
 
-    keyPressed = t.move(' ');
+    keyPressed = t.move(" ");
     assertFalse(keyPressed);
 
   }
@@ -45,10 +45,10 @@ public class TableroTest {
         {0, 0, 0, 2},
         {0, 0, 0, 0}
     };
-    Tablero initial = new Tablero(initialBoard);
-    Tablero expected = new Tablero(expectedBoard);
+    Game2048 initial = new Game2048(initialBoard);
+    Game2048 expected = new Game2048(expectedBoard);
 
-    initial.move('w');
+    initial.move("w");
 
     assertEquals(initial, expected);
   }
@@ -67,10 +67,10 @@ public class TableroTest {
         {0,0,0,2},
         {0,0,0,0}
     };
-    Tablero initial = new Tablero(initialBoard);
-    Tablero expected = new Tablero(expectedBoard);
+    Game2048 initial = new Game2048(initialBoard);
+    Game2048 expected = new Game2048(expectedBoard);
 
-    initial.move('w');
+    initial.move("w");
 
     assertEquals(initial, expected);
   }
@@ -89,10 +89,10 @@ public class TableroTest {
         {8, 0, 5, 3},
         {2, 4, 2, 2}
     };
-    Tablero initial = new Tablero(initialBoard);
-    Tablero expected = new Tablero(expectedBoard);
+    Game2048 initial = new Game2048(initialBoard);
+    Game2048 expected = new Game2048(expectedBoard);
 
-    initial.move('s');
+    initial.move("s");
 
     assertEquals(initial, expected);
   }
@@ -111,10 +111,10 @@ public class TableroTest {
         {0,4,4,3},
         {8,8,8,2}
     };
-    Tablero initial = new Tablero(initialBoard);
-    Tablero expected = new Tablero(expectedBoard);
+    Game2048 initial = new Game2048(initialBoard);
+    Game2048 expected = new Game2048(expectedBoard);
 
-    initial.move('s');
+    initial.move("s");
 
     assertEquals(initial, expected);
   }
@@ -133,10 +133,10 @@ public class TableroTest {
         {4, 3,  0, 0},
         {4, 2,  0, 0}
     };
-    Tablero initial = new Tablero(initialBoard);
-    Tablero expected = new Tablero(expectedBoard);
+    Game2048 initial = new Game2048(initialBoard);
+    Game2048 expected = new Game2048(expectedBoard);
 
-    initial.move('a');
+    initial.move("a");
 
     assertEquals(initial, expected);
   }
@@ -155,10 +155,10 @@ public class TableroTest {
         {8,4,2,0},
         {4,0,0,0}
     };
-    Tablero initial = new Tablero(initialBoard);
-    Tablero expected = new Tablero(expectedBoard);
+    Game2048 initial = new Game2048(initialBoard);
+    Game2048 expected = new Game2048(expectedBoard);
 
-    initial.move('a');
+    initial.move("a");
 
     assertEquals(initial, expected);
   }
@@ -177,10 +177,10 @@ public class TableroTest {
         {0, 0, 4, 3},
         {0, 0, 2, 4}
     };
-    Tablero initial = new Tablero(initialBoard);
-    Tablero expected = new Tablero(expectedBoard);
+    Game2048 initial = new Game2048(initialBoard);
+    Game2048 expected = new Game2048(expectedBoard);
 
-    initial.move('d');
+    initial.move("d");
 
     assertEquals(initial, expected);
   }
@@ -199,8 +199,8 @@ public class TableroTest {
         {0,4,8,2},
         {0,0,0,4}
     };
-    Tablero initial = new Tablero(initialBoard);
-    Tablero expected = new Tablero(expectedBoard);
+    Game2048 initial = new Game2048(initialBoard);
+    Game2048 expected = new Game2048(expectedBoard);
     /*
     initial.printBoard("Initial");
     initial.turnMatrixControl("RIGHT",1);
@@ -216,7 +216,7 @@ public class TableroTest {
     initial.turnMatrixControl("LEFT",1);
     initial.printBoard("Left Turn Board One more time");
     */
-    initial.move('d');
+    initial.move("d");
     assertEquals(initial, expected);
   }
 
@@ -241,21 +241,21 @@ public class TableroTest {
         {0,0,0,0},
         {0,0,0,2}
     };
-    Tablero expected = new Tablero(topRight);
-    Tablero board = new Tablero();
+    Game2048 expected = new Game2048(topRight);
+    Game2048 board = new Game2048();
 
-    board.move('w');
-    board.move('d');
+    board.move("w");
+    board.move("d");
 
     assertEquals(board, expected);
 
-    expected = new Tablero(topLeft);
-    board.move('a');
+    expected = new Game2048(topLeft);
+    board.move("a");
     assertEquals(board, expected);
 
-    expected = new Tablero(downLeft);
-    board.move('s');
-    board.move('d');
+    expected = new Game2048(downLeft);
+    board.move("s");
+    board.move("d");
     assertEquals(board, expected);
   }
 
