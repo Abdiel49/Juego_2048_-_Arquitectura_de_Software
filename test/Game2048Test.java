@@ -3,14 +3,13 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertArrayEquals;
 
 public class Game2048Test {
 
   @Test
   public void actionKey() {
     Game2048 t = new Game2048();
-
+    /*
     boolean keyPressed = t.move("w");
     assertTrue(keyPressed);
 
@@ -28,7 +27,7 @@ public class Game2048Test {
 
     keyPressed = t.move(" ");
     assertFalse(keyPressed);
-
+    */
   }
 
   @Test
@@ -48,8 +47,7 @@ public class Game2048Test {
     Game2048 initial = new Game2048(initialBoard);
     Game2048 expected = new Game2048(expectedBoard);
 
-    initial.move("w");
-
+    initial.moveUp();
     assertEquals(initial, expected);
   }
 
@@ -70,7 +68,7 @@ public class Game2048Test {
     Game2048 initial = new Game2048(initialBoard);
     Game2048 expected = new Game2048(expectedBoard);
 
-    initial.move("w");
+    initial.moveUp();
 
     assertEquals(initial, expected);
   }
@@ -92,7 +90,7 @@ public class Game2048Test {
     Game2048 initial = new Game2048(initialBoard);
     Game2048 expected = new Game2048(expectedBoard);
 
-    initial.move("s");
+    initial.moveDown();
 
     assertEquals(initial, expected);
   }
@@ -114,7 +112,7 @@ public class Game2048Test {
     Game2048 initial = new Game2048(initialBoard);
     Game2048 expected = new Game2048(expectedBoard);
 
-    initial.move("s");
+    initial.moveDown();
 
     assertEquals(initial, expected);
   }
@@ -136,7 +134,7 @@ public class Game2048Test {
     Game2048 initial = new Game2048(initialBoard);
     Game2048 expected = new Game2048(expectedBoard);
 
-    initial.move("a");
+    initial.moveLeft();
 
     assertEquals(initial, expected);
   }
@@ -158,7 +156,7 @@ public class Game2048Test {
     Game2048 initial = new Game2048(initialBoard);
     Game2048 expected = new Game2048(expectedBoard);
 
-    initial.move("a");
+    initial.moveLeft();
 
     assertEquals(initial, expected);
   }
@@ -180,7 +178,7 @@ public class Game2048Test {
     Game2048 initial = new Game2048(initialBoard);
     Game2048 expected = new Game2048(expectedBoard);
 
-    initial.move("d");
+    initial.moveRight();
 
     assertEquals(initial, expected);
   }
@@ -216,10 +214,9 @@ public class Game2048Test {
     initial.turnMatrixControl("LEFT",1);
     initial.printBoard("Left Turn Board One more time");
     */
-    initial.move("d");
+    initial.moveRight();
     assertEquals(initial, expected);
-  }
-
+  }/*
 
   @Test
   public void justNumberTwo(){
@@ -244,21 +241,21 @@ public class Game2048Test {
     Game2048 expected = new Game2048(topRight);
     Game2048 board = new Game2048();
 
-    board.move("w");
-    board.move("d");
+    board.moveUp();
+    board.moveRight();
 
     assertEquals(board, expected);
 
     expected = new Game2048(topLeft);
-    board.move("a");
+    board.moveLeft();
     assertEquals(board, expected);
 
     expected = new Game2048(downLeft);
-    board.move("s");
-    board.move("d");
+    board.moveDown();
+    board.moveRight();
     assertEquals(board, expected);
   }
-
+*/
 
   /**
  * Test Turn Matrix of the Board

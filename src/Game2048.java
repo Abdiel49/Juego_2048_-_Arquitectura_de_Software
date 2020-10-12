@@ -3,7 +3,9 @@ public class Game2048 implements G2048 {
   //pabloazero.a@fcyt.umss.edu.bo
 
   private int[][] Board;
-  private final int SIZE = 4, FRIST_NUMBER = 2;
+  private final int SIZE = 4,
+                    FRIST_NUMBER = 2;
+  private int Goal;
   private final String  RIGHT = "RIGHT",
                         LEFT = "LEFT";
 
@@ -12,7 +14,8 @@ public class Game2048 implements G2048 {
   }
 
   public Game2048() {
-    this.Board= new int[SIZE][SIZE];
+    this.Board = new int[SIZE][SIZE];
+    this.Goal = 32;
     setNumberTwoInBoard();
   }
 
@@ -21,23 +24,38 @@ public class Game2048 implements G2048 {
   }
 
   public boolean winGame(){
-    return false;
+    boolean victory = searchValue(Goal);
+    if(victory) this.Goal *= 2;
+    return victory;
   }
+
   public boolean lostGame() {
+    return !searchValue(0);
+  }
+
+  private boolean searchValue(int value){
+    for (int i = 0; i < SIZE; i++) {
+      for (int j = 0; j < SIZE; j++) {
+        int elemmt = this.Board[i][j];
+        if(elemmt == value)
+          return true;
+      }
+    }
     return false;
   }
   private boolean setNumberTwoInBoard(){
     boolean hit = false;
-    while ( !hit ){
+    while ( !hit && !lostGame() ){
       int[] position = getRandomPosition();
       if( this.Board[position[0]][position[1]] == 0 ){
-        this.Board[position[0]][position[1]] = FRIST_NUMBER;
+        //this.Board[position[0]][position[1]] = FRIST_NUMBER;
         hit = true;
       }
     }
     return hit;
   }
 
+/*
   public boolean move(String key){
     boolean resp = true;
     key = key.toUpperCase();
@@ -48,31 +66,40 @@ public class Game2048 implements G2048 {
       case "D" : moveRight();break;
       default : resp = false;
     }
-    setNumberTwoInBoard();
+
     return resp;
-  }
+  }*/
+
   public void moveUp(){
     turnMatrixControl(LEFT,1);
     solve();
     displace();
     turnMatrixControl(RIGHT,1);
+    setNumberTwoInBoard();
   }
+
   public void moveDown(){
     turnMatrixControl(RIGHT,1);
     solve();
     displace();
     turnMatrixControl(LEFT,1);
+    setNumberTwoInBoard();
   }
+
   public void moveLeft(){
     solve();
     displace();
+    setNumberTwoInBoard();
   }
+
   public void moveRight(){
     turnMatrixControl(RIGHT,2);
     solve();
     displace();
     turnMatrixControl(LEFT,2);
+    setNumberTwoInBoard();
   }
+
 
 
   private void displace(){
@@ -98,10 +125,12 @@ public class Game2048 implements G2048 {
       for (int j = 0; j < SIZE-1; j++) {
         int a = this.Board[i][j];
         int index = search( i, j+1 );
-        int b = this.Board[i][index];
-        if( a == b ){
-          this.Board[i][j] = a * 2;
-          this.Board[i][index] = 0;
+        if( index < SIZE ) {
+          int b = this.Board[i][index];
+          if( a == b ){
+            this.Board[i][j] = a * 2;
+            this.Board[i][index] = 0;
+          }
         }
         //j = index;
       }
@@ -113,17 +142,16 @@ public class Game2048 implements G2048 {
       if(Board[ array ][ i ] != 0)
         return i;
     }
-    return 3; // return 4 ??
+    return 4; // return 4 ??
   }
 
-  private int[][] turnMatrixControl(String dir, int val){
-    int resp[][] = new int [SIZE][SIZE];
+  private void turnMatrixControl(String dir, int val){
+    int resp[][];
     while(val-- > 0){
       resp= turnMatrix(dir);
-
       this.Board = resp;
     }
-    return resp;
+    //return resp;
   }
   private int[][] turnMatrix( String direction){
     int[][] newMatrix = new int [SIZE][SIZE];
@@ -184,7 +212,7 @@ public class Game2048 implements G2048 {
       }
       toString += "],\n";
     }
-    toString += "}\n";
+    toString += "}";
     return toString;
   }
 
