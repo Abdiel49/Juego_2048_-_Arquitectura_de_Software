@@ -10,11 +10,11 @@ public class Console2048 {
   public void play(){
     String movement;
     while(true) {
-      print("ingresa un movimiento 'w', 'a', 's', 'd' _o_ 'q' para salir");
+      print("Usa: 'w', 'a', 's', 'd' para mover, _o_ 'q' para salir");
       print( game.toString() );
       movement = readMovement().toUpperCase();
       if( movement.equals("Q") ){
-        print("Bueno, hasta pronto :)\n:el juego toxico xD)");
+        print("Bueno, tu te lo pierdes :)\n-:el juego toxico xD");
         break;
       }
       if( move(movement) ) {
