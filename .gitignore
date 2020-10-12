@@ -1,4 +1,6 @@
+# Files not tracked
 .idea/
 out/
-ArquiDeSoftware.iml 
+
+# Exceptions
 
