@@ -1,34 +1,16 @@
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertEquals;
 
+/**
+ * For run any test of this test class
+ * you need commnet one line of code in Game2048.java
+ * comment the line where the value od the
+ * 'FIRST_NIMBER' is assigned on the game board 2048
+ */
 public class Game2048Test {
-
-  @Test
-  public void actionKey() {
-    Game2048 t = new Game2048();
-    /*
-    boolean keyPressed = t.move("w");
-    assertTrue(keyPressed);
-
-    keyPressed = t.move("a");
-    assertTrue(keyPressed);
-
-    keyPressed = t.move("S");
-    assertTrue(keyPressed);
-
-    keyPressed = t.move("d");
-    assertTrue(keyPressed);
-
-    keyPressed = t.move("H");
-    assertFalse(keyPressed);
-
-    keyPressed = t.move(" ");
-    assertFalse(keyPressed);
-    */
-  }
 
   @Test
   public void moveUp_1() {
@@ -296,4 +278,28 @@ public class Game2048Test {
     assertEquals( initial, twoTurnBoard);
   }*/
 
-}
+  @Test
+  public void winGameState_test(){
+    int[][] initialBoard = {
+        {4,4,4,2},
+        {0,4,0,32},
+        {4,4,4,2},
+        {0,0,4,0}
+    };
+     G2048 game = new Game2048(initialBoard);
+     assertTrue(game.winGame());
+  }
+
+  @Test
+  public void LostGameState(){
+    int[][] initialBoard = {
+        {4,4,4,2},
+        {2,4,2,8},
+       {4,2,4,2},
+        {2,4,2,4}
+    };
+    G2048 game = new Game2048(initialBoard);
+    assertTrue(game.lostGame());
+  }
+
+}// dkm
