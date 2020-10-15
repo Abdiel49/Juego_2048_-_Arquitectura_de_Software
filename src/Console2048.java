@@ -17,7 +17,8 @@ public class Console2048 {
         print("Bueno, tu te lo pierdes :)\n-:el juego toxico xD");
         break;
       }
-      if( move(movement) ) {
+      if( validate(movement) ) {
+        move(movement);
         if(game.winGame()) {
           print("Felicidades Reto cumplido.");
           break;
@@ -26,8 +27,7 @@ public class Console2048 {
           print("F bro ya valiste");
           break;
         }
-      }else
-        print("Momiviento no valido");
+      }else print("Momiviento no valido");
     }
   }
   private String readMovement(){
@@ -36,22 +36,20 @@ public class Console2048 {
     return resp;
   }
 
-  public boolean move(String key){
-    boolean resp = true;
+  private void move(String key){
     switch (key){
       case "W" : game.moveUp();   break;
       case "S" : game.moveDown(); break;
       case "A" : game.moveLeft(); break;
       case "D" : game.moveRight();break;
-      default : resp = false;
+      default : break;
     }
-    return resp;
   }
 
-  private boolean validate(String str){
-    return str.length() < 2 ? true : false;
+  public boolean validate(String str){
+    return str == "W" || str == "A" || str == "S" || str == "D";
   }
-  public void print(String str){
+  private void print(String str){
     System.out.println(str);
   }
 }

@@ -4,7 +4,7 @@ public class Game2048 implements G2048 {
 
   private int[][] Board;
   private final int SIZE = 4,
-                    FRIST_NUMBER = 2;
+                    FIRST_NUMBER = 2;
   private int Goal;
   private final String  RIGHT = "RIGHT",
                         LEFT = "LEFT";
@@ -17,10 +17,6 @@ public class Game2048 implements G2048 {
     this.Board = new int[SIZE][SIZE];
     this.Goal = 32;
     setNumberTwoInBoard();
-  }
-
-  public static G2048 create() {
-    return new Game2048();
   }
 
   public boolean winGame(){
@@ -48,27 +44,12 @@ public class Game2048 implements G2048 {
     while ( !hit && !lostGame() ){
       int[] position = getRandomPosition();
       if( this.Board[position[0]][position[1]] == 0 ){
-        //this.Board[position[0]][position[1]] = FRIST_NUMBER;
+        //this.Board[position[0]][position[1]] = FIRST_NUMBER;
         hit = true;
       }
     }
     return hit;
   }
-
-/*
-  public boolean move(String key){
-    boolean resp = true;
-    key = key.toUpperCase();
-    switch (key){
-      case "W" : moveUp();   break;
-      case "S" : moveDown(); break;
-      case "A" : moveLeft(); break;
-      case "D" : moveRight();break;
-      default : resp = false;
-    }
-
-    return resp;
-  }*/
 
   public void moveUp(){
     turnMatrixControl(LEFT,1);
