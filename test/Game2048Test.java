@@ -302,4 +302,4 @@ public class Game2048Test {
     assertTrue(game.lostGame());
   }
 
-}// dkm
+}
