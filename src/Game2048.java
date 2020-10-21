@@ -1,3 +1,4 @@
+
 public class Game2048 implements G2048 {
 
   //pabloazero.a@fcyt.umss.edu.bo
@@ -39,16 +40,16 @@ public class Game2048 implements G2048 {
     }
     return false;
   }
-  private boolean setNumberTwoInBoard(){
+  private void setNumberTwoInBoard(){
     boolean hit = false;
     while ( !hit && !lostGame() ){
       int[] position = getRandomPosition();
       if( this.Board[position[0]][position[1]] == 0 ){
-        //this.Board[position[0]][position[1]] = FIRST_NUMBER;
+        this.Board[position[0]][position[1]] = FIRST_NUMBER;
         hit = true;
       }
     }
-    return hit;
+    //return hit;
   }
 
   public void moveUp(){
@@ -184,16 +185,15 @@ public class Game2048 implements G2048 {
 
 
   public String toString() {
-    String toString = "{\n";
+    String toString = "";
     for (int i = 0; i < SIZE; i++) {
       toString += "[ ";
       for (int j = 0; j < SIZE; j++) {
         int val = this.Board[i][j];
-        toString += val+",\t";
+        toString += val+" \t";
       }
-      toString += "],\n";
+      toString += "]\n";
     }
-    toString += "}";
     return toString;
   }
 

@@ -9,9 +9,10 @@ public class Console2048 {
   }
   public void play(){
     String movement;
+    print( game.toString() );
     while(true) {
       print("Usa: 'w', 'a', 's', 'd' para mover, _o_ 'q' para salir");
-      print( game.toString() );
+      //print( game.toString() );
       movement = readMovement().toUpperCase();
       if( movement.equals("Q") ){
         print("Bueno, tu te lo pierdes :)\n-:el juego toxico xD");
@@ -19,11 +20,12 @@ public class Console2048 {
       }
       if( validate(movement) ) {
         move(movement);
+        print( game.toString() );
         if(game.winGame()) {
           print("Felicidades Reto cumplido.");
           break;
         }
-        if(game.lostGame()) {
+        else if(game.lostGame()) {
           print("F bro ya valiste");
           break;
         }
@@ -32,8 +34,7 @@ public class Console2048 {
   }
   private String readMovement(){
     Scanner in = new Scanner(System.in);
-    String resp = in.next();
-    return resp;
+    return in.next();
   }
 
   private void move(String key){
@@ -47,7 +48,8 @@ public class Console2048 {
   }
 
   public boolean validate(String str){
-    return str == "W" || str == "A" || str == "S" || str == "D";
+    return str.equals("W") || str.equals("A") ||
+           str.equals("S") || str.equals("D");
   }
   private void print(String str){
     System.out.println(str);

@@ -1,4 +1,4 @@
-interface G2048 {
+public interface G2048 {
   void moveUp();
   void moveDown();
   void moveLeft();
