@@ -187,17 +187,18 @@ public class Game2048 implements G2048 {
   public String toString() {
     String toString = "";
     for (int i = 0; i < SIZE; i++) {
-      toString += "[ ";
+      //toString += "[ ";
       for (int j = 0; j < SIZE; j++) {
         int val = this.Board[i][j];
         toString += val+" \t";
       }
-      toString += "]\n";
+      toString += "\n";
     }
     return toString;
   }
+  /*
   public int[][] getBoard(){
     return this.Board;
-  }
+  }*/
 
 }

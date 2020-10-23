@@ -1,14 +1,18 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class GUI2048  extends JFrame
-                      implements ActionListener, KeyListener {
+                      implements KeyListener {
 
   private G2048 game;
+  private final int ROW_SIZE = 4,
+                    COLUMN_SIZE = 4,
+                    LEFT_ARROW = 37,
+                    UP_ARROW = 38,
+                    RIGHT_ARROW = 39,
+                    DOWN_ARROW = 40;
 
   private JPanel BoardPanelContainer;
   private JPanel FunctionalPanel;
@@ -33,7 +37,7 @@ public class GUI2048  extends JFrame
     this.setTitle("Game 2048 - Arquitectura de Software");
     this.setLayout( new BorderLayout(2,2));
     this.addKeyListener(this);
-    this.Board = new Label[4][4];
+    this.Board = new Label[ROW_SIZE][COLUMN_SIZE];
 
     initFunctionalPanel();
     initBoardPanel();
@@ -50,14 +54,15 @@ public class GUI2048  extends JFrame
     this.FunctionalPanel = new JPanel();
     this.FunctionalPanel.setLayout(new FlowLayout());
     this.FunctionalPanel.setPreferredSize( new Dimension(100,40));
-    this.FunctionalPanel.setBackground(Color.CYAN);
+    //this.FunctionalPanel.setBackground(new Color(87,230,156));
 
     Label Title = new Label("Game 2048");
+    Title.setFont( new Font("Sans Bold", Font.PLAIN, 20));
 
     JButton Restartbutton = new JButton("Restart");
     Restartbutton.setFocusable(false);
     Restartbutton.addActionListener(e -> {
-      this.game = new Game2048();
+      //this.game = new Game2048();
       System.out.println("Boton de reinicio");
     });
 
@@ -65,12 +70,32 @@ public class GUI2048  extends JFrame
     this.FunctionalPanel.add(Restartbutton);
   }
 
+  public void play(){
+    if( game.winGame() ){
+      int YES = 0, NO = 1;
+      int yesNoMessageDialog = JOptionPane.showConfirmDialog(
+          null, "You Win!!\n Play Again?",
+          "Game 2040 says:", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+      if ( yesNoMessageDialog == YES){
+        JOptionPane.showMessageDialog(null, "Les't Go!");
+      }
+      if ( yesNoMessageDialog == NO){
+        JOptionPane.showMessageDialog(null, "Bye");
+        this.dispose();
+      }
+    }
+    if( game.lostGame() ) {
+      JOptionPane.showMessageDialog(null, "Bye");
+    }
+
+  }
+
   private void initBoardPanel(){
     this.BoardPanelContainer = new JPanel();
     this.BoardPanelContainer.setLayout( new GridLayout(4,4,3,3) );
     this.BoardPanelContainer.setPreferredSize( new Dimension(400,400) );
-    this.BoardPanelContainer.setBackground(Color.GREEN);
-    this.Board = new Label[4][4];
+    //this.BoardPanelContainer.setBackground(new Color(238, 226, 209) );
+
 
     fillBoard();
     repaintBoard();
@@ -80,7 +105,7 @@ public class GUI2048  extends JFrame
     this.ControlPanel = new JPanel();
     this.ControlPanel.setLayout(new FlowLayout());
     this.ControlPanel.setPreferredSize( new Dimension(100,65) );
-    this.ControlPanel.setBackground(Color.blue);
+    //this.ControlPanel.setBackground(new Color(91, 112,240));
 
     this.upButton = new JButton("Move UP");
     this.downButton = new JButton("Move Down");
@@ -116,11 +141,12 @@ public class GUI2048  extends JFrame
   }
 
   private void repaintBoard(){
-    int[][] board = game.getBoard();
+    //new int[ROW_SIZE][COLUMN_SIZE]; //game.getBoard();
+    String[][] board = parseBoard( this.game.toString() );
     for (int i = 0; i < board.length; i++) {
       for(int j = 0; j < board.length; j++) {
-        int value = board[i][j];
-        this.Board[i][j].setText(value+"");
+        String value = board[i][j];
+        this.Board[i][j].setText( value );
       }
     }
   }
@@ -137,27 +163,18 @@ public class GUI2048  extends JFrame
     }
   }
 
-  public void play(){
-
-
+  private String[][] parseBoard(String gameStatus)
+  {
+    String[][] board = new String[4][4];
+    String[] rows = gameStatus.split("\n");
+    for(int i = 0; i < ROW_SIZE;i++){
+      String[] columnItems = rows[i].split(" ");
+      for(int j=0;j < COLUMN_SIZE;j++) {
+        board[i][j]=columnItems[j];
+      }
+    }
+    return board;
   }
-
-  @Override
-  public void actionPerformed(ActionEvent e) {
-    if(e.getSource().equals("w")){
-      System.out.println("Se presiono W");
-    }
-    if(e.getSource() == "w" ){
-      System.out.println("Se presiono W");
-    }
-    if(e.getSource() == upButton){
-      System.out.println("Se presiono el boton de arriba");
-    }
-    if(e.getSource() == leftButton){
-      System.out.println("Se presiono el boton de Izq");
-    }
-  }
-
 
   @Override
   public void keyTyped(KeyEvent e) {
@@ -172,19 +189,19 @@ public class GUI2048  extends JFrame
   @Override
   public void keyReleased(KeyEvent e) {
     //System.out.println("key presed is: "+e.getKeyChar()+", and key code is: "+e.getKeyCode());
-    String key = (Character.toUpperCase(e.getKeyChar()))+"";
+    char key = Character.toUpperCase(e.getKeyChar());
     switch (key){
-      case "W" : game.moveUp();   repaintBoard(); break;
-      case "S" : game.moveDown(); repaintBoard(); break;
-      case "A" : game.moveLeft(); repaintBoard(); break;
-      case "D" : game.moveRight();repaintBoard(); break;
+      case 'W' : game.moveUp();   repaintBoard(); play(); break;
+      case 'S' : game.moveDown(); repaintBoard(); play(); break;
+      case 'A' : game.moveLeft(); repaintBoard(); play(); break;
+      case 'D' : game.moveRight();repaintBoard(); play(); break;
       default : break;
     }
     switch (e.getKeyCode()){
-      case 37 : game.moveLeft(); repaintBoard(); break;
-      case 38 : game.moveUp();   repaintBoard(); break;
-      case 39 : game.moveRight();repaintBoard(); break;
-      case 40 : game.moveDown(); repaintBoard(); break;
+      case UP_ARROW : game.moveUp();   repaintBoard(); play(); break;
+      case DOWN_ARROW : game.moveDown(); repaintBoard(); play(); break;
+      case LEFT_ARROW : game.moveLeft(); repaintBoard(); play(); break;
+      case RIGHT_ARROW : game.moveRight();repaintBoard(); play(); break;
       default : break;
     }
   }
