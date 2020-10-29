@@ -1,7 +1,7 @@
 # Files not tracked
 .idea/
-out/
+out/artifacts
+out/test
 
 # Exceptions
-/src/GUI2048fx.form
-/src/GUI2048fx.java
+

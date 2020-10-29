@@ -1,3 +1,5 @@
+package g2048.gamerules;
+
 public interface G2048 {
   void moveUp();
   void moveDown();

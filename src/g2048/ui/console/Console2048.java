@@ -1,6 +1,10 @@
+package g2048.ui.console;
+
+import g2048.gamerules.G2048;
+
 import java.util.Scanner;
 
-public class Console2048 {
+public class Console2048 implements UI2048 {
 
   private final G2048 game;
 
@@ -54,4 +58,5 @@ public class Console2048 {
   private void print(String str){
     System.out.println(str);
   }
+
 }

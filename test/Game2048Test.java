@@ -1,3 +1,5 @@
+import g2048.gamerules.G2048;
+import g2048.gamerules.Game2048;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -5,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * For run any test of this test class
- * you need commnet one line of code in Game2048.java
+ * you need commnet one line of code in g2048.gamerules.Game2048.java
  * comment the line where the value od the
  * 'FIRST_NIMBER' is assigned on the game board 2048
  */
@@ -219,19 +221,19 @@ public class Game2048Test {
         {0,0,0,0},
         {0,0,0,2}
     };
-    Game2048 expected = new Game2048(topRight);
-    Game2048 board = new Game2048();
+    g2048.gamerules.Game2048 expected = new g2048.gamerules.Game2048(topRight);
+    g2048.gamerules.Game2048 board = new g2048.gamerules.Game2048();
 
     board.moveUp();
     board.moveRight();
 
     assertEquals(board, expected);
 
-    expected = new Game2048(topLeft);
+    expected = new g2048.gamerules.Game2048(topLeft);
     board.moveLeft();
     assertEquals(board, expected);
 
-    expected = new Game2048(downLeft);
+    expected = new g2048.gamerules.Game2048(downLeft);
     board.moveDown();
     board.moveRight();
     assertEquals(board, expected);

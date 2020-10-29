@@ -1,3 +1,4 @@
+package g2048.gamerules;
 
 public class Game2048 implements G2048 {
 

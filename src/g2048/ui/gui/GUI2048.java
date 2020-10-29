@@ -1,18 +1,22 @@
+package g2048.ui.gui;
+
+import g2048.gamerules.G2048;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class GUI2048  extends JFrame
-                      implements KeyListener {
+    implements KeyListener, UI2048 {
 
   private G2048 game;
   private final int ROW_SIZE = 4,
-                    COLUMN_SIZE = 4,
-                    LEFT_ARROW = 37,
-                    UP_ARROW = 38,
-                    RIGHT_ARROW = 39,
-                    DOWN_ARROW = 40;
+      COLUMN_SIZE = 4,
+      LEFT_ARROW = 37,
+      UP_ARROW = 38,
+      RIGHT_ARROW = 39,
+      DOWN_ARROW = 40;
 
   private JPanel BoardPanelContainer;
   private JPanel FunctionalPanel;
@@ -56,18 +60,18 @@ public class GUI2048  extends JFrame
     this.FunctionalPanel.setPreferredSize( new Dimension(100,40));
     //this.FunctionalPanel.setBackground(new Color(87,230,156));
 
-    Label Title = new Label("Game 2048");
-    Title.setFont( new Font("Sans Bold", Font.PLAIN, 20));
+    Label title = new Label("Game 2048");
+    title.setFont( new Font("Sans Bold", Font.PLAIN, 20));
 
-    JButton Restartbutton = new JButton("Restart");
-    Restartbutton.setFocusable(false);
-    Restartbutton.addActionListener(e -> {
-      //this.game = new Game2048();
-      System.out.println("Boton de reinicio");
+    JButton restartbutton = new JButton("Restart");
+    restartbutton.setFocusable(false);
+    restartbutton.addActionListener(e -> {
+      //this.game = new g2048.gamerules.Game2048();
+      System.out.println("restart button was presset");
     });
 
-    FunctionalPanel.add(Title);
-    this.FunctionalPanel.add(Restartbutton);
+    FunctionalPanel.add(title);
+    this.FunctionalPanel.add(restartbutton);
   }
 
   public void play(){
