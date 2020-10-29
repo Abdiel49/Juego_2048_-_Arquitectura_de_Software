@@ -2,6 +2,7 @@
 .idea/
 out/artifacts
 out/test
+out/production
 
 # Exceptions
 
