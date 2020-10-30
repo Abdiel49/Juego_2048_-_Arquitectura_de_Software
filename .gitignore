@@ -1,8 +1,6 @@
 # Files not tracked
 .idea/
-out/artifacts
-out/test
-out/production
+out
 
 # Exceptions
 

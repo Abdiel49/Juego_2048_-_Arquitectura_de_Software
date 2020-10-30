@@ -11,6 +11,7 @@ public class Console2048 implements UI2048 {
   public Console2048(G2048 game ) {
     this.game = game;
   }
+
   public void play(){
     String movement;
     print( game.toString() );

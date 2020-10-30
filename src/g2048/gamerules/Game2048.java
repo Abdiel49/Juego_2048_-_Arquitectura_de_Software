@@ -197,9 +197,5 @@ public class Game2048 implements G2048 {
     }
     return toString;
   }
-  /*
-  public int[][] getBoard(){
-    return this.Board;
-  }*/
 
 }
