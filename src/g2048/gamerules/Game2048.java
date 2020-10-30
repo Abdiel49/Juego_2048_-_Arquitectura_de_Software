@@ -1,6 +1,8 @@
 package g2048.gamerules;
 
-public class Game2048 implements G2048 {
+import java.util.Iterator;
+
+public class Game2048 implements G2048, Iterable {
 
   //pabloazero.a@fcyt.umss.edu.bo
 
@@ -21,12 +23,13 @@ public class Game2048 implements G2048 {
     setNumberTwoInBoard();
   }
 
+  @Override
   public boolean winGame(){
     boolean victory = searchValue(Goal);
     if(victory) this.Goal *= 2;
     return victory;
   }
-
+  @Override
   public boolean lostGame() {
     return !searchValue(0);
   }
@@ -52,7 +55,7 @@ public class Game2048 implements G2048 {
     }
     //return hit;
   }
-
+  @Override
   public void moveUp(){
     turnMatrixControl(LEFT,1);
     solve();
@@ -60,7 +63,7 @@ public class Game2048 implements G2048 {
     turnMatrixControl(RIGHT,1);
     setNumberTwoInBoard();
   }
-
+  @Override
   public void moveDown(){
     turnMatrixControl(RIGHT,1);
     solve();
@@ -68,13 +71,13 @@ public class Game2048 implements G2048 {
     turnMatrixControl(LEFT,1);
     setNumberTwoInBoard();
   }
-
+  @Override
   public void moveLeft(){
     solve();
     displace();
     setNumberTwoInBoard();
   }
-
+  @Override
   public void moveRight(){
     turnMatrixControl(RIGHT,2);
     solve();
@@ -198,4 +201,8 @@ public class Game2048 implements G2048 {
     return toString;
   }
 
+  @Override
+  public Iterator iterator() {
+    return new GameBoardIterator(this.Board);
+  }
 }

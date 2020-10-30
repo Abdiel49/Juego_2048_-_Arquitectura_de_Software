@@ -7,5 +7,4 @@ public interface G2048 {
   void moveRight();
   boolean winGame();
   boolean lostGame();
-  //int[][] getBoard();
 }

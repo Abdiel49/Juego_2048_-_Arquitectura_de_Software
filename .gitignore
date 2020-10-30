@@ -1,6 +1,9 @@
-# Files not tracked
+# files ignored
 .idea/
-out
+out/artifacts
+out/jar
+out/production
+out/test
 
 # Exceptions
 

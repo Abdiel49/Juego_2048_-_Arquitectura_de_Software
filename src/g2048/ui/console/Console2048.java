@@ -12,6 +12,7 @@ public class Console2048 implements UI2048 {
     this.game = game;
   }
 
+  @Override
   public void play(){
     String movement;
     print( game.toString() );

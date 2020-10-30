@@ -1,11 +1,13 @@
 package g2048.ui.gui;
 
 import g2048.gamerules.G2048;
+import g2048.gamerules.Game2048;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Iterator;
 
 public class GUI2048  extends JFrame
     implements KeyListener, UI2048 {
@@ -22,7 +24,7 @@ public class GUI2048  extends JFrame
   private JPanel FunctionalPanel;
   private JPanel ControlPanel;
 
-  private Label[][] Board;
+  private Label[] Board;
   private JButton upButton;
   private JButton downButton;
   private JButton leftButton;
@@ -41,7 +43,7 @@ public class GUI2048  extends JFrame
     this.setTitle("Game 2048 - Arquitectura de Software");
     this.setLayout( new BorderLayout(2,2));
     this.addKeyListener(this);
-    this.Board = new Label[ROW_SIZE][COLUMN_SIZE];
+    this.Board = new Label[ROW_SIZE*COLUMN_SIZE];
 
     initFunctionalPanel();
     initBoardPanel();
@@ -73,7 +75,7 @@ public class GUI2048  extends JFrame
     FunctionalPanel.add(title);
     this.FunctionalPanel.add(restartbutton);
   }
-
+  @Override
   public void play(){
     if( game.winGame() ){
       int YES = 0, NO = 1;
@@ -145,39 +147,23 @@ public class GUI2048  extends JFrame
   }
 
   private void repaintBoard(){
-    //new int[ROW_SIZE][COLUMN_SIZE]; //game.getBoard();
-    String[][] board = parseBoard( this.game.toString() );
-    for (int i = 0; i < board.length; i++) {
-      for(int j = 0; j < board.length; j++) {
-        String value = board[i][j];
-        this.Board[i][j].setText( value );
+    Iterator<Integer> iterator = ((Game2048)game).iterator();
+    for(int i = 0; i < this.Board.length; i++){
+      if(iterator.hasNext()){
+        int value = iterator.next();
+        this.Board[i].setText(value+"");
       }
     }
   }
 
   private void fillBoard(){
-    for (int i = 0; i < this.Board.length; i++) {
-      for (int j = 0; j < this.Board.length; j++) {
-        Label labelContend = new Label("0");
-        labelContend.setFont( new Font("Sans Bold", Font.PLAIN, 50));
-        labelContend.setAlignment(Label.CENTER);
-        this.BoardPanelContainer.add(labelContend);
-        this.Board[i][j] = labelContend;
-      }
+    for(int i = 0; i < this.Board.length; i++){
+      Label labelContend = new Label("0");
+      labelContend.setFont( new Font("Sans Bold", Font.PLAIN, 50));
+      labelContend.setAlignment(Label.CENTER);
+      this.BoardPanelContainer.add(labelContend);
+      this.Board[i] = labelContend;
     }
-  }
-
-  private String[][] parseBoard(String gameStatus)
-  {
-    String[][] board = new String[4][4];
-    String[] rows = gameStatus.split("\n");
-    for(int i = 0; i < ROW_SIZE;i++){
-      String[] columnItems = rows[i].split(" ");
-      for(int j=0;j < COLUMN_SIZE;j++) {
-        board[i][j]=columnItems[j];
-      }
-    }
-    return board;
   }
 
   @Override
