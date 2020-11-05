@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Iterator;
 
 public class GUI2048  extends JFrame
     implements KeyListener, UI2048 {
@@ -147,11 +146,11 @@ public class GUI2048  extends JFrame
   }
 
   private void repaintBoard(){
-    Iterator<Integer> iterator = ((Game2048)game).iterator();
-    for(int i = 0; i < this.Board.length; i++){
-      if(iterator.hasNext()){
-        int value = iterator.next();
-        this.Board[i].setText(value+"");
+    int i = 0;
+    for( Iterable<Integer> row : game){
+      for(int value : row){
+        this.Board[i].setText( value+"" );
+        i++;
       }
     }
   }

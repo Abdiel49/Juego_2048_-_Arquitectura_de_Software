@@ -2,7 +2,7 @@ package g2048.gamerules;
 
 import java.util.Iterator;
 
-public class Game2048 implements G2048, Iterable<Integer> {
+public class Game2048 implements G2048 {
 
   //pabloazero.a@fcyt.umss.edu.bo
 
@@ -202,7 +202,7 @@ public class Game2048 implements G2048, Iterable<Integer> {
   }
 
   @Override
-  public Iterator iterator() {
+  public Iterator<Iterable<Integer>> iterator() {
     return new GameBoardIterator(this.Board);
   }
 }

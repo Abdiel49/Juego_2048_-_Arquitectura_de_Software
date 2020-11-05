@@ -1,9 +1,4 @@
-# files ignored
-.idea/
-out/artifacts
-out/jar
-out/production
-out/test
 
-# Exceptions
+.idea/
+out/
 
