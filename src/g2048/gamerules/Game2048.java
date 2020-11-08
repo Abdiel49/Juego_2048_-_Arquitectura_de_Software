@@ -188,7 +188,7 @@ public class Game2048 implements G2048 {
   }
 
 
-  public String toString() {
+  /* public String toString() {
     String toString = "";
     for (int i = 0; i < SIZE; i++) {
       //toString += "[ ";
@@ -200,6 +200,7 @@ public class Game2048 implements G2048 {
     }
     return toString;
   }
+  */
 
   @Override
   public Iterator<Iterable<Integer>> iterator() {

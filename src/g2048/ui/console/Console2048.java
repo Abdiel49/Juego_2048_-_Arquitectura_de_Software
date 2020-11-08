@@ -15,27 +15,28 @@ public class Console2048 implements UI2048 {
   @Override
   public void play(){
     String movement;
-    print( game.toString() );
+    printGameBoard();
     while(true) {
-      print("Usa: 'w', 'a', 's', 'd' para mover, _o_ 'q' para salir");
+      print("Usa: 'w', 'a', 's', 'd' para mover, _o_ 'q' para salir\n");
       //print( game.toString() );
       movement = readMovement().toUpperCase();
       if( movement.equals("Q") ){
-        print("Bueno, tu te lo pierdes :)\n-:el juego toxico xD");
+        print("Bueno, tu te lo pierdes :)\n-:el juego toxico xD\n");
         break;
       }
       if( validate(movement) ) {
+        print(movement + " was pressed!");
         move(movement);
-        print( game.toString() );
+        printGameBoard();
         if(game.winGame()) {
-          print("Felicidades Reto cumplido.");
+          print("Felicidades Reto cumplido.\n");
           break;
         }
         else if(game.lostGame()) {
-          print("F bro ya valiste");
+          print("F bro ya valiste\n");
           break;
         }
-      }else print("Momiviento no valido");
+      }else print("Momiviento no valido\n");
     }
   }
   private String readMovement(){
@@ -53,12 +54,21 @@ public class Console2048 implements UI2048 {
     }
   }
 
-  public boolean validate(String str){
+  private void printGameBoard(){
+    for( Iterable<Integer> row : game){
+      for(int value : row){
+        print(value + "\t");
+      }
+      print("\n");
+    }
+  }
+
+  private boolean validate(String str){
     return str.equals("W") || str.equals("A") ||
            str.equals("S") || str.equals("D");
   }
   private void print(String str){
-    System.out.println(str);
+    System.out.print(str);
   }
 
 }
