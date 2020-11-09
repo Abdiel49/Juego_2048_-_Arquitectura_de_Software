@@ -25,7 +25,7 @@ public class Console2048 implements UI2048 {
         break;
       }
       if( validate(movement) ) {
-        print(movement + " was pressed!");
+        print(movement + " was pressed!\n");
         move(movement);
         printGameBoard();
         if(game.winGame()) {
