@@ -1,7 +1,6 @@
 package g2048.ui.gui;
 
 import g2048.gamerules.G2048;
-import g2048.gamerules.Game2048;
 
 import javax.swing.*;
 import java.awt.*;

@@ -7,9 +7,11 @@ import java.util.Scanner;
 public class Console2048 implements UI2048 {
 
   private final G2048 game;
+  private Scanner in;
 
   public Console2048(G2048 game ) {
     this.game = game;
+    in = new Scanner(System.in);
   }
 
   @Override
@@ -40,7 +42,6 @@ public class Console2048 implements UI2048 {
     }
   }
   private String readMovement(){
-    Scanner in = new Scanner(System.in);
     return in.next();
   }
 
