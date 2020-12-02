@@ -1,5 +1,8 @@
 package g2048.gamerules;
 
+import g2048.ui.events.ChangeEventListener;
+import g2048.ui.events.EventType;
+
 import java.util.Iterator;
 
 public class Game2048 implements G2048 {
@@ -186,24 +189,19 @@ public class Game2048 implements G2048 {
     }
     return resp;
   }
-
-
-  /* public String toString() {
-    String toString = "";
-    for (int i = 0; i < SIZE; i++) {
-      //toString += "[ ";
-      for (int j = 0; j < SIZE; j++) {
-        int val = this.Board[i][j];
-        toString += val+" \t";
-      }
-      toString += "\n";
-    }
-    return toString;
-  }
-  */
-
+  
   @Override
   public Iterator<Iterable<Integer>> iterator() {
     return new GameBoardIterator(this.Board);
+  }
+
+  @Override
+  public void addEventListener(ChangeEventListener listener) {
+
+  }
+
+  @Override
+  public void triggerEvent(EventType type) {
+
   }
 }
