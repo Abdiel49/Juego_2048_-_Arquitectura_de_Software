@@ -7,6 +7,7 @@ public class ChangeEvent extends EventObject {
 
   public ChangeEvent(Object source) {
     super(source);
+    //eventType = NONE;
   }
 
   public void setEvent(EventType eventType) {

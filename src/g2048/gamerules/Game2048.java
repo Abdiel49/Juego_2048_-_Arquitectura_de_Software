@@ -1,9 +1,13 @@
 package g2048.gamerules;
 
+import g2048.ui.events.ChangeEvent;
 import g2048.ui.events.ChangeEventListener;
 import g2048.ui.events.EventType;
+//import jdk.jfr.Event;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class Game2048 implements G2048 {
 
@@ -15,6 +19,7 @@ public class Game2048 implements G2048 {
   private int Goal;
   private final String  RIGHT = "RIGHT",
                         LEFT = "LEFT";
+  private List<ChangeEventListener> ListenersUIs2048;
 
   public Game2048(int[][] tablero ){
     this.Board = tablero;
@@ -22,18 +27,26 @@ public class Game2048 implements G2048 {
 
   public Game2048() {
     this.Board = new int[SIZE][SIZE];
-    this.Goal = 32;
+    this.Goal = 16;
+    this.ListenersUIs2048 = new ArrayList<>();
     setNumberTwoInBoard();
   }
 
   @Override
   public boolean winGame(){
     boolean victory = searchValue(Goal);
-    if(victory) this.Goal *= 2;
+    if(victory) {
+      //this.Goal *= 2;
+      triggerEvent(EventType.WIN);
+    }
     return victory;
   }
+
   @Override
   public boolean lostGame() {
+    if( !searchValue(0) ){
+      triggerEvent(EventType.LOST);
+    }
     return !searchValue(0);
   }
 
@@ -47,6 +60,7 @@ public class Game2048 implements G2048 {
     }
     return false;
   }
+
   private void setNumberTwoInBoard(){
     boolean hit = false;
     while ( !hit && !lostGame() ){
@@ -65,7 +79,9 @@ public class Game2048 implements G2048 {
     displace();
     turnMatrixControl(RIGHT,1);
     setNumberTwoInBoard();
+    movementHappened("UP");
   }
+
   @Override
   public void moveDown(){
     turnMatrixControl(RIGHT,1);
@@ -73,13 +89,17 @@ public class Game2048 implements G2048 {
     displace();
     turnMatrixControl(LEFT,1);
     setNumberTwoInBoard();
+    movementHappened("DOWN");
   }
+
   @Override
   public void moveLeft(){
     solve();
     displace();
     setNumberTwoInBoard();
+    movementHappened("LEFT");
   }
+
   @Override
   public void moveRight(){
     turnMatrixControl(RIGHT,2);
@@ -87,9 +107,8 @@ public class Game2048 implements G2048 {
     displace();
     turnMatrixControl(LEFT,2);
     setNumberTwoInBoard();
+    movementHappened("RIGHT");
   }
-
-
 
   private void displace(){
     int a, flag;
@@ -142,6 +161,7 @@ public class Game2048 implements G2048 {
     }
     //return resp;
   }
+
   private int[][] turnMatrix( String direction){
     int[][] newMatrix = new int [SIZE][SIZE];
     for (int i = 0; i < 4; i++) {
@@ -154,6 +174,7 @@ public class Game2048 implements G2048 {
     }
     return newMatrix;
   }
+
 // pull out
   private int[] getNewLocation( String direction, int i, int j ){
     int [] a = new int [2];
@@ -166,6 +187,7 @@ public class Game2048 implements G2048 {
     }
     return a;
   }
+
   // pull out
   private int[] getRandomPosition(){
     int a = (int) (Math.random()*SIZE);
@@ -189,19 +211,31 @@ public class Game2048 implements G2048 {
     }
     return resp;
   }
-  
+
+  private void movementHappened (String movementSuccessful){
+    EventType movement = EventType.MOVEMENT;
+    movement.setName(movementSuccessful);
+    triggerEvent(movement);
+    triggerEvent(EventType.BOARD_CHANGE);
+  }
+
   @Override
   public Iterator<Iterable<Integer>> iterator() {
     return new GameBoardIterator(this.Board);
   }
 
   @Override
-  public void addEventListener(ChangeEventListener listener) {
-
+  public void addEventListener(ChangeEventListener listenerUI2048) {
+    this.ListenersUIs2048.add(listenerUI2048);
   }
 
   @Override
-  public void triggerEvent(EventType type) {
-
+  public void triggerEvent(EventType evenType) {
+    ChangeEvent event  = new ChangeEvent(this);
+    event.setEvent(evenType);
+    for(ChangeEventListener ListenerUI : ListenersUIs2048 ){
+      ListenerUI.onChange(event);
+    }
   }
+
 }

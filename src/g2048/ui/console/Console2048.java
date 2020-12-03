@@ -1,6 +1,8 @@
 package g2048.ui.console;
 
 import g2048.gamerules.G2048;
+import g2048.ui.events.ChangeEvent;
+import g2048.ui.events.EventType;
 
 import java.util.Scanner;
 
@@ -11,6 +13,7 @@ public class Console2048 implements UI2048 {
 
   public Console2048(G2048 game ) {
     this.game = game;
+    game.addEventListener(this);
     in = new Scanner(System.in);
   }
 
@@ -24,6 +27,7 @@ public class Console2048 implements UI2048 {
       movement = readMovement().toUpperCase();
       if( movement.equals("Q") ){
         print("Bueno, tu te lo pierdes :)\n-:el juego toxico xD\n");
+        exitGame("");
         break;
       }
       if( validate(movement) ) {
@@ -53,6 +57,28 @@ public class Console2048 implements UI2048 {
       case "D" : game.moveRight();break;
       default : break;
     }
+  }
+
+  private void exitGame(String text){
+    print("Console says: " + text + "\n");
+    System.exit(0);
+  }
+
+  private void movementHappened(String movement) {
+    print( movement +"\n");
+  }
+
+  @Override
+  public void onChange(ChangeEvent changeEvent){
+    EventType type = changeEvent.getEvent();
+    switch( type ) {
+      case BOARD_CHANGE -> printGameBoard();
+      case WIN -> print(type.getName()+"\n");
+      case LOST -> print(type.getName()+"\n");
+      case END_GAME -> exitGame(EventType.END_GAME.getName());
+      //case MOVEMENT -> movementHappened(type.getName());
+    }
+
   }
 
   private void printGameBoard(){

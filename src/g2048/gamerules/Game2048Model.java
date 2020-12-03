@@ -4,7 +4,8 @@ import g2048.ui.events.ChangeEventListener;
 import g2048.ui.events.EventType;
 
 public interface Game2048Model {
-  void addEventListener(ChangeEventListener listener);
 
-  void triggerEvent(EventType type);
+  void addEventListener(ChangeEventListener listenerUI2048);
+
+  void triggerEvent(EventType eventType);
 }
