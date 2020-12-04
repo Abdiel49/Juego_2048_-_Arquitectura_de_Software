@@ -174,7 +174,7 @@ public class Game2048 implements G2048 {
       resp= turnMatrix(dir);
       this.Board = resp;
     }
-    //return resp;
+
   }
 
   private int[][] turnMatrix( String direction){

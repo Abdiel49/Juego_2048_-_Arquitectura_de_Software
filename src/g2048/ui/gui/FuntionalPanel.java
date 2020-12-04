@@ -8,8 +8,7 @@ import g2048.ui.events.EventType;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import java.awt.FlowLayout;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,8 +27,10 @@ public class FuntionalPanel extends JPanel implements ChangeEventListener, Actio
     this.setLayout(new FlowLayout());
     this.setPreferredSize( new Dimension(100,40));
     this.setBackground(Colors.background());
-    this.quitButton = new GameButtons("QUIT", "ALERT");
-    this.title = new GameLabel("GAME 2048");
+    this.quitButton = new GameButton("QUIT", "ALERT");
+    this.title = new JLabel("GAME 2048");
+    this.title.setFont( new Font("Sans Bold", Font.PLAIN, 24));
+    this.title.setForeground(Colors.textPrimary());
 
     this.quitButton.addActionListener(this);
 

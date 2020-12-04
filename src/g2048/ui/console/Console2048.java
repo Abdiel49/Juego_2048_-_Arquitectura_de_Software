@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Console2048 implements UI2048 {
 
   private final G2048 game;
-  private Scanner in;
+  private final Scanner in;
 
   public Console2048(G2048 game ) {
     this.game = game;

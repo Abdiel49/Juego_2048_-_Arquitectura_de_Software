@@ -6,14 +6,16 @@ import g2048.ui.events.EventType;
 
 import javax.swing.JPanel;
 import javax.swing.JFrame;
-import java.awt.*;
+import java.awt.Label;
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class GUI2048  extends JFrame
     implements KeyListener, UI2048 {
 
-  private G2048 game;
+  private final G2048 game;
   private final int ROW_SIZE = 4,
       COLUMN_SIZE = 4,
       LEFT_ARROW = 37,
@@ -50,22 +52,15 @@ public class GUI2048  extends JFrame
     fillBoard();
     repaintBoard();
 
+  }
+
+  @Override
+  public void play(){
     this.add(this.FunctionalPanel, BorderLayout.NORTH);
     this.add(this.ControlPanel, BorderLayout.SOUTH);
     this.add(this.BoardPanelContainer, BorderLayout.CENTER);
 
     this.pack();
-  }
-
-  @Override
-  public void play(){
-    if( game.winGame() ){
-//      this.title.setText(EventType.WIN.getName());
-    }
-    if( game.lostGame() ) {
-//      this.title.setText(EventType.LOST.getName());
-    }
-
   }
 
   private void repaintBoard(){
@@ -90,14 +85,10 @@ public class GUI2048  extends JFrame
   }
 
   @Override
-  public void keyTyped(KeyEvent e) {
-    //System.out.println("key presed is: "+e.getKeyChar()+", and key code is: "+e.getKeyCode());
-  }
+  public void keyTyped(KeyEvent e) {  }
 
   @Override
-  public void keyPressed(KeyEvent e) {
-    //System.out.println("key presed is: "+e.getKeyChar()+", and key code is: "+e.getKeyCode());
-  }
+  public void keyPressed(KeyEvent e) {  }
 
   @Override
   public void keyReleased(KeyEvent e) {
@@ -124,7 +115,6 @@ public class GUI2048  extends JFrame
     switch ( type ) {
       case BOARD_CHANGE -> repaintBoard();
       case END_GAME -> this.dispose();
-//      case MOVEMENT -> movementHappened( type.getName() );
     }
   }
 

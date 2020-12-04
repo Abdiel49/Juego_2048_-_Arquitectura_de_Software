@@ -6,7 +6,7 @@ import java.util.Iterator;
 public class GameBoardIterator implements Iterator {
 
   private int index;
-  private int[][] Board;
+  private final int[][] Board;
 
   public GameBoardIterator(int[][]board){
     this.Board = board;

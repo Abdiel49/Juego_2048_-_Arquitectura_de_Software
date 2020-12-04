@@ -14,10 +14,12 @@ public class ControlPanel extends JPanel implements ChangeEventListener, ActionL
 
   private final G2048 game;
 
-  private JButton upButton;
-  private JButton downButton;
-  private JButton leftButton;
-  private JButton rightButton;
+  private GameButton upButton;
+  private GameButton downButton;
+  private GameButton leftButton;
+  private GameButton rightButton;
+
+  private GameButton lastActionPressed;
 
   public ControlPanel (G2048 game){
     this.game = game;
@@ -35,15 +37,28 @@ public class ControlPanel extends JPanel implements ChangeEventListener, ActionL
   }
 
   private void initControlButtons(){
-    this.upButton = new GameButtons("Move Up", "CONTROL");
-    this.downButton = new GameButtons("Move Down", "CONTROL");
-    this.leftButton = new GameButtons("Move Left", "CONTROL");
-    this.rightButton = new GameButtons("Move Right", "CONTROL");
+    this.upButton = new GameButton("Move Up", "CONTROL");
+    this.downButton = new GameButton("Move Down", "CONTROL");
+    this.leftButton = new GameButton("Move Left", "CONTROL");
+    this.rightButton = new GameButton("Move Right", "CONTROL");
+
+    this.lastActionPressed = new GameButton("","");
 
     this.upButton.addActionListener(this);
     this.downButton.addActionListener(this);
     this.leftButton.addActionListener(this);
     this.rightButton.addActionListener(this);
+  }
+
+  private void showButtonThatItWasPressed(String movement){
+    lastActionPressed.pressed();
+    switch (movement) {
+      case "UP" -> lastActionPressed = upButton;
+      case "DOWN" -> lastActionPressed = downButton;
+      case "LEFT" -> lastActionPressed = leftButton;
+      case "RIGHT" -> lastActionPressed = rightButton;
+    }
+    lastActionPressed.pressed();
   }
 
   @Override
@@ -64,7 +79,7 @@ public class ControlPanel extends JPanel implements ChangeEventListener, ActionL
   public void onChange(ChangeEvent changeEvent) {
     EventType type = changeEvent.getEvent();
     if ( type == EventType.MOVEMENT ){
-      System.out.println("Typo de evento:\t" + type.getName());
+      showButtonThatItWasPressed(type.getName());
     }
   }
 }

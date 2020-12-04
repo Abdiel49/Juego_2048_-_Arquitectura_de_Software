@@ -3,11 +3,11 @@ package g2048.ui.gui;
 import javax.swing.JButton;
 import java.awt.*;
 
-public class GameButtons extends JButton {
+public class GameButton extends JButton {
 
   private boolean wasPressed;
 
-  public GameButtons (String text, String type){
+  public GameButton(String text, String type){
     setDafaultConfig(text);
     switch ( type){
       case "CONTROL" -> this.setBackground(Colors.repose());
