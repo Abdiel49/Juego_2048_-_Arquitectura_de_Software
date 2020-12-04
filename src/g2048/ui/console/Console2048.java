@@ -46,7 +46,7 @@ public class Console2048 implements UI2048 {
 
   private void exitGame(String text){
     print("Console says: " + text + "\n");
-    in.close();
+//    in.close();
     System.exit(0);
   }
 

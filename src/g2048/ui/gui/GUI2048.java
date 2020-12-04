@@ -4,15 +4,14 @@ import g2048.gamerules.G2048;
 import g2048.ui.events.ChangeEvent;
 import g2048.ui.events.EventType;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class GUI2048  extends JFrame
-    implements KeyListener, UI2048, ActionListener {
+    implements KeyListener, UI2048 {
 
   private G2048 game;
   private final int ROW_SIZE = 4,
@@ -22,18 +21,11 @@ public class GUI2048  extends JFrame
       RIGHT_ARROW = 39,
       DOWN_ARROW = 40;
 
-  private Label title;
-  private Label notice;
   private JPanel BoardPanelContainer;
   private JPanel FunctionalPanel;
   private JPanel ControlPanel;
 
   private Label[] Board;
-  private JButton upButton;
-  private JButton downButton;
-  private JButton leftButton;
-  private JButton rightButton;
-  private JButton quitBbutton;
 
   public GUI2048 (G2048 game){
     this.game = game;
@@ -51,9 +43,12 @@ public class GUI2048  extends JFrame
     this.Board = new Label[ROW_SIZE*COLUMN_SIZE];
     this.setBackground(Colors.background());
 
-    initFunctionalPanel();
-    initBoardPanel();
-    initControlPanel();
+    this.FunctionalPanel = new FuntionalPanel(game);
+    this.ControlPanel = new ControlPanel(game);
+    this.BoardPanelContainer = new BoardPanel();
+
+    fillBoard();
+    repaintBoard();
 
     this.add(this.FunctionalPanel, BorderLayout.NORTH);
     this.add(this.ControlPanel, BorderLayout.SOUTH);
@@ -62,75 +57,15 @@ public class GUI2048  extends JFrame
     this.pack();
   }
 
-  private void initFunctionalPanel(){
-    this.FunctionalPanel = new JPanel();
-    this.FunctionalPanel.setLayout(new FlowLayout());
-    this.FunctionalPanel.setPreferredSize( new Dimension(100,40));
-    //this.FunctionalPanel.setBackground(new Color(87,230,156));
-
-    title = new Label("Game 2048");
-    notice = new Label("");
-    title.setFont( new Font("Sans Bold", Font.PLAIN, 24));
-    title.setForeground(Colors.textPrimary());
-    this.FunctionalPanel.setBackground(Colors.background());
-
-    quitBbutton = new JButton("QUIT");
-    quitBbutton.setBackground(Colors.alert());
-    quitBbutton.setFocusable(false);
-    quitBbutton.addActionListener(this);
-    quitBbutton.setForeground(Colors.background());
-
-    FunctionalPanel.add(title);
-    FunctionalPanel.add(notice);
-    FunctionalPanel.add(quitBbutton);
-  }
   @Override
   public void play(){
     if( game.winGame() ){
-      this.notice.setText(EventType.WIN.getName());
+//      this.title.setText(EventType.WIN.getName());
     }
     if( game.lostGame() ) {
-      this.notice.setText(EventType.LOST.getName());
+//      this.title.setText(EventType.LOST.getName());
     }
 
-  }
-
-  private void initBoardPanel(){
-    this.BoardPanelContainer = new JPanel();
-    this.BoardPanelContainer.setLayout( new GridLayout(4,4,3,3) );
-    this.BoardPanelContainer.setPreferredSize( new Dimension(400,400) );
-    this.BoardPanelContainer.setBackground(Colors.background());
-    //this.BoardPanelContainer.setBackground(new Color(238, 226, 209) );
-    fillBoard();
-    repaintBoard();
-  }
-
-  private void initControlPanel(){
-    this.ControlPanel = new JPanel();
-    this.ControlPanel.setLayout(new FlowLayout());
-    this.ControlPanel.setPreferredSize( new Dimension(100,65) );
-    this.ControlPanel.setBackground(Colors.background());
-    //this.ControlPanel.setBackground(new Color(91, 112,240));
-
-    this.upButton = new JButton("Move UP");
-    this.downButton = new JButton("Move Down");
-    this.leftButton = new JButton("Move Left");
-    this.rightButton = new JButton("Move Right");
-
-    this.upButton.addActionListener(this);
-    this.downButton.addActionListener(this);
-    this.leftButton.addActionListener(this);
-    this.rightButton.addActionListener(this);
-
-    this.leftButton.setFocusable(false);
-    this.rightButton.setFocusable(false);
-    this.upButton.setFocusable(false);
-    this.downButton.setFocusable(false);
-
-    this.ControlPanel.add(leftButton);
-    this.ControlPanel.add(upButton);
-    this.ControlPanel.add(rightButton);
-    this.ControlPanel.add(downButton);
   }
 
   private void repaintBoard(){
@@ -182,49 +117,15 @@ public class GUI2048  extends JFrame
       default : break;
     }
   }
-  private void winGame(String message){
-    //this.title.setText(message);
-  }
-
-  private void lostGame(String message){
-    this.title.setText(message);
-  }
-
-  private void movementHappened(String movement) {
-    switch( movement ) {
-      case "UP" -> upButton.setBackground(Colors.action());
-      case "DOWN" -> downButton.setBackground(Colors.action());
-      case "LEFT" -> leftButton.setBackground(Colors.action());
-      case "RIGHT" -> rightButton.setBackground(Colors.action());
-    }
-  }
 
   @Override
   public void onChange(ChangeEvent changeEvent) {
     EventType type = changeEvent.getEvent();
     switch ( type ) {
       case BOARD_CHANGE -> repaintBoard();
-      case WIN -> winGame( type.getName() );
-      case LOST -> lostGame( type.getName() );
       case END_GAME -> this.dispose();
-      case MOVEMENT -> movementHappened( type.getName() );
+//      case MOVEMENT -> movementHappened( type.getName() );
     }
   }
 
-  @Override
-  public void actionPerformed(ActionEvent e) {
-    //if(e.getSource() == upButton)
-    Object source = e.getSource();
-    if (quitBbutton.equals(source)) {
-      this.game.triggerEvent(EventType.END_GAME);
-    } else if (upButton.equals(source)) {
-      this.game.moveUp();
-    } else if (downButton.equals(source)) {
-      this.game.moveDown();
-    } else if (leftButton.equals(source)) {
-      this.game.moveLeft();
-    } else if (rightButton.equals(source)) {
-      this.game.moveRight();
-    }
-  }
 }

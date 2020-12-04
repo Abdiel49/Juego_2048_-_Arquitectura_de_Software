@@ -1,6 +1,7 @@
 package g2048.ui.gui;
 
 import javax.swing.JButton;
+import java.awt.*;
 
 public class GameButtons extends JButton {
 
@@ -10,7 +11,10 @@ public class GameButtons extends JButton {
     setDafaultConfig(text);
     switch ( type){
       case "CONTROL" -> this.setBackground(Colors.repose());
-      case "ALERT" -> this.setBackground(Colors.alert());
+      case "ALERT" -> {
+        this.setBackground(Colors.alert());
+        this.setForeground(Color.black);
+      }
     }
   }
 

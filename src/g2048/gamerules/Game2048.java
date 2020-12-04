@@ -3,7 +3,6 @@ package g2048.gamerules;
 import g2048.ui.events.ChangeEvent;
 import g2048.ui.events.ChangeEventListener;
 import g2048.ui.events.EventType;
-//import jdk.jfr.Event;
 
 import java.util.ArrayList;
 import java.util.Iterator;
