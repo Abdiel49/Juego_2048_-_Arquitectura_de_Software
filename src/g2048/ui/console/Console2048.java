@@ -21,27 +21,11 @@ public class Console2048 implements UI2048 {
   public void play(){
     String movement;
     printGameBoard();
-    while(true) {
-      print("Usa: 'w', 'a', 's', 'd' para mover, _o_ 'q' para salir\n");
-      //print( game.toString() );
+    print("Usa: 'w', 'a', 's', 'd' para mover, _o_ 'q' para salir\n");
+    while( !game.lostGame() && !game.winGame()) {
       movement = readMovement().toUpperCase();
-      if( movement.equals("Q") ){
-        print("Bueno, tu te lo pierdes :)\n-:el juego toxico xD\n");
-        exitGame("");
-        break;
-      }
       if( validate(movement) ) {
-        print(movement + " was pressed!\n");
         move(movement);
-        printGameBoard();
-        if(game.winGame()) {
-          print("Felicidades Reto cumplido.\n");
-          break;
-        }
-        else if(game.lostGame()) {
-          print("F bro ya valiste\n");
-          break;
-        }
       }else print("Momiviento no valido\n");
     }
   }
@@ -55,12 +39,14 @@ public class Console2048 implements UI2048 {
       case "S" : game.moveDown(); break;
       case "A" : game.moveLeft(); break;
       case "D" : game.moveRight();break;
+      case "Q" : exitGame(EventType.END_GAME.getName());
       default : break;
     }
   }
 
   private void exitGame(String text){
     print("Console says: " + text + "\n");
+    in.close();
     System.exit(0);
   }
 
@@ -76,7 +62,7 @@ public class Console2048 implements UI2048 {
       case WIN -> print(type.getName()+"\n");
       case LOST -> print(type.getName()+"\n");
       case END_GAME -> exitGame(EventType.END_GAME.getName());
-      //case MOVEMENT -> movementHappened(type.getName());
+      case MOVEMENT -> movementHappened(type.getName());
     }
 
   }
@@ -88,11 +74,12 @@ public class Console2048 implements UI2048 {
       }
       print("\n");
     }
+    print("\n");
   }
 
   private boolean validate(String str){
     return str.equals("W") || str.equals("A") ||
-           str.equals("S") || str.equals("D");
+           str.equals("S") || str.equals("D") || str.equals("Q");
   }
   private void print(String str){
     System.out.print(str);

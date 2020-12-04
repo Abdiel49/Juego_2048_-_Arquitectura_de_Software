@@ -69,7 +69,7 @@ public class GUI2048  extends JFrame
     //this.FunctionalPanel.setBackground(new Color(87,230,156));
 
     title = new Label("Game 2048");
-    notice = new Label();
+    notice = new Label("");
     title.setFont( new Font("Sans Bold", Font.PLAIN, 24));
     title.setForeground(Colors.textPrimary());
     this.FunctionalPanel.setBackground(Colors.background());

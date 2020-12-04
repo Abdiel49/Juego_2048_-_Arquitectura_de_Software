@@ -17,7 +17,7 @@ public class Colors {
   public static Color action(){
     return new Color(0, 117, 165);
   }
-  public static Color standby(){
+  public static Color repose(){
     return new Color(3, 57, 81);
   }
   public static Color alert(){

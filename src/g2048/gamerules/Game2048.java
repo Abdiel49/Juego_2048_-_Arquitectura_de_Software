@@ -44,10 +44,11 @@ public class Game2048 implements G2048 {
 
   @Override
   public boolean lostGame() {
-    if( !searchValue(0) ){
+    boolean lost = searchValue(0);
+    if( !lost ){
       triggerEvent(EventType.LOST);
     }
-    return !searchValue(0);
+    return !lost;
   }
 
   private boolean searchValue(int value){
@@ -74,40 +75,55 @@ public class Game2048 implements G2048 {
   }
   @Override
   public void moveUp(){
-    turnMatrixControl(LEFT,1);
-    solve();
-    displace();
-    turnMatrixControl(RIGHT,1);
-    setNumberTwoInBoard();
-    movementHappened("UP");
+    if( !winGame() && !lostGame() ) {
+      turnMatrixControl(LEFT, 1);
+      solve();
+      displace();
+      turnMatrixControl(RIGHT, 1);
+      setNumberTwoInBoard();
+      movementHappened("UP");
+    }
   }
 
   @Override
   public void moveDown(){
-    turnMatrixControl(RIGHT,1);
-    solve();
-    displace();
-    turnMatrixControl(LEFT,1);
-    setNumberTwoInBoard();
-    movementHappened("DOWN");
+    if( !winGame() && !lostGame() ) {
+      turnMatrixControl(RIGHT,1);
+      solve();
+      displace();
+      turnMatrixControl(LEFT,1);
+      setNumberTwoInBoard();
+      movementHappened("DOWN");
+    }
   }
 
   @Override
   public void moveLeft(){
-    solve();
-    displace();
-    setNumberTwoInBoard();
-    movementHappened("LEFT");
+    if( !winGame() && !lostGame() ) {
+      solve();
+      displace();
+      setNumberTwoInBoard();
+      movementHappened("LEFT");
+    }
   }
 
   @Override
   public void moveRight(){
-    turnMatrixControl(RIGHT,2);
-    solve();
-    displace();
-    turnMatrixControl(LEFT,2);
-    setNumberTwoInBoard();
-    movementHappened("RIGHT");
+    if( !winGame() && !lostGame() ) {
+      turnMatrixControl(RIGHT, 2);
+      solve();
+      displace();
+      turnMatrixControl(LEFT, 2);
+      setNumberTwoInBoard();
+      movementHappened("RIGHT");
+    }
+  }
+
+  private void movementHappened (String movementSuccessful){
+    EventType movement = EventType.MOVEMENT;
+    movement.setName(movementSuccessful);
+    triggerEvent(movement);
+    triggerEvent(EventType.BOARD_CHANGE);
   }
 
   private void displace(){
@@ -210,13 +226,6 @@ public class Game2048 implements G2048 {
       }
     }
     return resp;
-  }
-
-  private void movementHappened (String movementSuccessful){
-    EventType movement = EventType.MOVEMENT;
-    movement.setName(movementSuccessful);
-    triggerEvent(movement);
-    triggerEvent(EventType.BOARD_CHANGE);
   }
 
   @Override
