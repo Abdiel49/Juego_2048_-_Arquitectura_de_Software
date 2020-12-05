@@ -18,6 +18,9 @@ public class Game2048 implements G2048 {
   private int Goal;
   private final String  RIGHT = "RIGHT",
                         LEFT = "LEFT";
+  private boolean winner;
+  private boolean losser;
+
   private List<ChangeEventListener> ListenersUIs2048;
 
   public Game2048(int[][] tablero ){
@@ -29,6 +32,8 @@ public class Game2048 implements G2048 {
     this.Goal = 16;
     this.ListenersUIs2048 = new ArrayList<>();
     setNumberTwoInBoard();
+    this.winner = false;
+    this.losser = false;
   }
 
   @Override
@@ -36,6 +41,7 @@ public class Game2048 implements G2048 {
     boolean victory = searchValue(Goal);
     if(victory) {
       //this.Goal *= 2;
+      this.winner = true;
       triggerEvent(EventType.WIN);
     }
     return victory;
@@ -45,6 +51,7 @@ public class Game2048 implements G2048 {
   public boolean lostGame() {
     boolean lost = searchValue(0);
     if( !lost ){
+      this.losser = true;
       triggerEvent(EventType.LOST);
     }
     return !lost;
@@ -74,7 +81,7 @@ public class Game2048 implements G2048 {
   }
   @Override
   public void moveUp(){
-    if( !winGame() && !lostGame() ) {
+    if( canPlaying() ) {
       turnMatrixControl(LEFT, 1);
       solve();
       displace();
@@ -86,7 +93,7 @@ public class Game2048 implements G2048 {
 
   @Override
   public void moveDown(){
-    if( !winGame() && !lostGame() ) {
+    if( canPlaying()) {
       turnMatrixControl(RIGHT,1);
       solve();
       displace();
@@ -98,7 +105,7 @@ public class Game2048 implements G2048 {
 
   @Override
   public void moveLeft(){
-    if( !winGame() && !lostGame() ) {
+    if( canPlaying() ) {
       solve();
       displace();
       setNumberTwoInBoard();
@@ -108,7 +115,7 @@ public class Game2048 implements G2048 {
 
   @Override
   public void moveRight(){
-    if( !winGame() && !lostGame() ) {
+    if( canPlaying() ) {
       turnMatrixControl(RIGHT, 2);
       solve();
       displace();
@@ -117,12 +124,17 @@ public class Game2048 implements G2048 {
       movementHappened("RIGHT");
     }
   }
+  private boolean canPlaying(){
+    return !(this.winner || this.losser);
+  }
 
   private void movementHappened (String movementSuccessful){
     EventType movement = EventType.MOVEMENT;
     movement.setName(movementSuccessful);
     triggerEvent(movement);
     triggerEvent(EventType.BOARD_CHANGE);
+    winGame();
+    lostGame();
   }
 
   private void displace(){
@@ -169,7 +181,7 @@ public class Game2048 implements G2048 {
   }
 
   private void turnMatrixControl(String dir, int val){
-    int resp[][];
+    int[][] resp;
     while(val-- > 0){
       resp= turnMatrix(dir);
       this.Board = resp;

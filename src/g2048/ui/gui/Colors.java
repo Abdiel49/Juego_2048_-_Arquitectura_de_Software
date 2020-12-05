@@ -1,13 +1,6 @@
 package g2048.ui.gui;
 
 import java.awt.Color;
-/**
- * background
- * action
- * standby
- * alert
- * fontPrimary
- */
 
 public class Colors {
 

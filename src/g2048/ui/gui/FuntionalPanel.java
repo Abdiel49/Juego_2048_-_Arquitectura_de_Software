@@ -54,8 +54,7 @@ public class FuntionalPanel extends JPanel implements ChangeEventListener, Actio
   public void onChange(ChangeEvent changeEvent) {
     EventType type = changeEvent.getEvent();
     switch ( type ) {
-      case WIN -> finalEventGame(type.getName());
-      case LOST -> finalEventGame(type.getName());
+      case WIN, LOST -> finalEventGame(type.getName());
     }
   }
 }

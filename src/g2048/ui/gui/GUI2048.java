@@ -32,6 +32,7 @@ public class GUI2048  extends JFrame
   public GUI2048 (G2048 game){
     this.game = game;
     game.addEventListener(this);
+    this.setVisible(false);
     initAllComponents();
   }
 
@@ -52,15 +53,16 @@ public class GUI2048  extends JFrame
     fillBoard();
     repaintBoard();
 
-  }
-
-  @Override
-  public void play(){
     this.add(this.FunctionalPanel, BorderLayout.NORTH);
     this.add(this.ControlPanel, BorderLayout.SOUTH);
     this.add(this.BoardPanelContainer, BorderLayout.CENTER);
 
     this.pack();
+  }
+
+  @Override
+  public void play(){
+    this.setVisible(true);
   }
 
   private void repaintBoard(){
@@ -109,11 +111,14 @@ public class GUI2048  extends JFrame
     }
   }
 
+  private void onChangeBoard(){
+    repaintBoard();
+  }
   @Override
   public void onChange(ChangeEvent changeEvent) {
     EventType type = changeEvent.getEvent();
     switch ( type ) {
-      case BOARD_CHANGE -> repaintBoard();
+      case BOARD_CHANGE -> onChangeBoard();
       case END_GAME -> this.dispose();
     }
   }
